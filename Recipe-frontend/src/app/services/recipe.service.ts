@@ -27,7 +27,9 @@ export class RecipeService {
     return this.http.get<any>(url, this.httpOptions);
   }
 
-  
+  getRecipe(id: string){
 
   }
+
+}
 
