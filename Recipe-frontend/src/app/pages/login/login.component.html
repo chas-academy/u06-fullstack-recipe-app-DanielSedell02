@@ -1,1 +1,8 @@
-<p>login works!</p>
+<p>{{ loggedIn$ | async }}</p>
+
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
+
+
+<button (click)="getUser()">Get a user</button>
+<p>{{user.name}}</p>
