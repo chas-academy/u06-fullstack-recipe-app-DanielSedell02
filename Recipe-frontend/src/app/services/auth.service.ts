@@ -4,13 +4,12 @@ import { LoginDetails } from '../interfaces/login-details';
 import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 
+
 interface ResultData {
   token: string
 }
 
-interface RegisterDetails {
 
-}
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +26,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   }
+  
 
   constructor(private http:HttpClient) { }
 
@@ -50,6 +50,20 @@ export class AuthService {
         this.updateLoginState(false);
         this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer ");
       })
+  }
+//Register 
+
+  registerUser(form: any) {
+    this.http.post<any>(this.baseUrl + 'register', form, this.httpOptions).pipe(
+      catchError(this.handleError)
+    ).subscribe(res => {
+      console.log(res);
+      console.log(res.token);
+      localStorage.setItem("token", res.token);
+    });
+    
+   // console.log("test");
+    //console.log(form);
   }
 
   getUser2(): Observable<User[]> {
