@@ -13,26 +13,40 @@ import { RecipeService } from '../../services/recipe.service';
   templateUrl: './recipe.component.html',
   styleUrl: './recipe.component.css'
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent /*implements OnInit */ {
   id: string;
   recipe: any;
 
   constructor(private route: ActivatedRoute, private recipeservice: RecipeService  ){ 
+    this.recipe = {
+      label: "",
+      Image: "",
+      ingredients: [],
+      totalTime: 0,
+
+      
+
+
+
+    }
     this.id = "";
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id = String(params.get('id'));
+
     })
+    this.getrecipe();
   }
 
-  ngOnInit(): void {
-    this.getrecipe()
+  // ngOnInit(): void {
+  //   this.getrecipe()
 
    
-  }
+  // }
 
   getrecipe(){
     this.recipeservice.getRecipe(this.id).subscribe(res => {
-      this.recipe = res;
+      this.recipe = res.recipe;
+      console.log(this.recipe);
       
 
     })
