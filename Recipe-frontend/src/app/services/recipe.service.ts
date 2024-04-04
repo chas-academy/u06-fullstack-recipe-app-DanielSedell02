@@ -23,15 +23,15 @@ export class RecipeService {
   constructor(private http:HttpClient) { }
 
   getRecipes(searchterm = "", diet: string, mealType: string): Observable<any> {
-    let url = this.baseUrl + "?type=public" + "&q=" + searchterm + "&app_id=" + this.app_id + "&app_key=" + this.app_key  + "&mealType=" + mealType;
-    //let url = this.baseUrl + "?type=public";
+    // let url = this.baseUrl + "?type=public" + "&q=" + searchterm + "&app_id=" + this.app_id + "&app_key=" + this.app_key  + "&mealType=" + mealType;
+    let url = this.baseUrl +  "?type=public" + "&app_id=" + this.app_id + "&app_key=" + this.app_key;
     if(searchterm){
       url += "&q=" + searchterm; 
     }
-    if(searchterm){
+    if(diet){
       url += "&diet=" + diet; 
     }
-    if(searchterm){
+    if(mealType){
       url += "&mealType=" + mealType; 
     }
     // console.log(url);
