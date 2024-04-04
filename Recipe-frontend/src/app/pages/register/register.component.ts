@@ -1,26 +1,46 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { RegisterDetails } from '../../interfaces/register-details';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, ],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 
 export class RegisterComponent {
-  email: string = "";
-  password: string = "";
-  name: string = "";
-  password_confirmation: string = "";
+ 
+form = new FormGroup({
+  name: new FormControl(''),
+  email: new FormControl(''),
+  password: new FormControl(''),
+  password_confirmation: new FormControl('')
+})
 
-  onSubmit() {
-    const formData = new FormData();
-    formData.append('name', this.name);
-    formData.append('email', this.email);
-    formData.append('password', this.password);
+// Register 
+
+registerDetails: RegisterDetails;
+
+constructor(private auth: AuthService) {
+  this.registerDetails = {
+    name:"",
+    email:"", 
+    password:"", 
+    password_confirmation:"",
+    
   }
+
 }
+register(){
+  this.auth.registerUser(this.form.value)
+}
+
+
+}
+
 
 

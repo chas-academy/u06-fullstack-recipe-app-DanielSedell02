@@ -5,6 +5,7 @@ import { Observable, Subject, catchError, throwError } from 'rxjs';
 import { User } from '../interfaces/user';
 
 
+
 interface ResultData {
   token: string
 }
@@ -53,14 +54,14 @@ export class AuthService {
   }
 //Register 
 
-  registerUser(form: any) {
-    this.http.post<any>(this.baseUrl + 'register', form, this.httpOptions).pipe(
-      catchError(this.handleError)
-    ).subscribe(res => {
-      console.log(res);
-      console.log(res.token);
-      localStorage.setItem("token", res.token);
-    });
+registerUser(form: any) {
+  this.http.post<any>(this.baseUrl + 'register', form, this.httpOptions).pipe(
+    catchError(this.handleError)
+  ).subscribe(res => {
+    console.log(res);
+    console.log(res.token);
+    localStorage.setItem("token", res.token);
+  });
     
    // console.log("test");
     //console.log(form);
