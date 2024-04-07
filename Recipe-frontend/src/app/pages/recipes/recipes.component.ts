@@ -16,13 +16,32 @@ import { RecipeformatterPipe } from '../../pipes/recipeformatter.pipe';
 })
 export class RecipesComponent {
   recipes?: Recipe[];
+  dietOptions = [
+    'balanced', 
+    'high-fiber', 
+    'high-protein', 
+    'low-carb', 
+    'low-fat', 
+    'low-sodium'
+  ]
+  mealTypeOptions = [
+    'Breakfast',
+    'Dinner',
+    'Lunch',
+    'Snack',
+    'Teatime'
+  ]
 
   searchterm = '';
+  diet = '';
+  mealType = ''; 
+
+
 
   constructor(private recipeService: RecipeService) {}
 
   searchRecipe() {
-    this.recipeService.getRecipes(this.searchterm).subscribe((result) => {
+    this.recipeService.getRecipes(this.searchterm, this.diet, this.mealType).subscribe((result) => {
       console.log(result);
       let recipes: Recipe[];
       recipes = result.hits.map((item: { recipe: { label: any; image: any; ingredientLines: any; totalTime: any; }; _links: { self: { href: any; }; }; }) => {
