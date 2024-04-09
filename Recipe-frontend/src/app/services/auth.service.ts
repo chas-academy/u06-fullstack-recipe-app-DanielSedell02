@@ -20,7 +20,7 @@ export class AuthService {
   private loggedIn = new Subject<boolean>();
   loggedIn$ = this.loggedIn.asObservable();
 
-  private baseUrl = 'http://127.0.0.1:8000/api/';
+  private baseUrl = 'https://u06-fullstack-recipe-app-danielsedell02.onrender.com/api/';
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -100,17 +100,11 @@ logoutUser() {
 
 }
 
-  getUser2(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl+'getuser/2', this.httpOptions);
-  }
-
   private handleError(error: HttpErrorResponse){
     if (error.status === 404) {
-      // A client-side or network error occurred. Handle it accordingly.
+     
       console.error('An error occurred:', error.error);
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
       console.error(
         `Backend returned code ${error.status}, body was: `, error.error);
     }
