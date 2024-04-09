@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { LoginDetails } from '../interfaces/login-details';
 import { Observable, Subject, catchError, throwError } from 'rxjs';
-import { User } from '../interfaces/user';
+
 
 
 
@@ -47,14 +47,14 @@ export class AuthService {
   //     })
   // }
 
-  logOut(){
-    this.http.post<ResultData>(this.baseUrl+'logout', {}, this.httpOptions).pipe(
-      catchError(this.handleError)).subscribe(result => {
-        console.log(result);
-        this.updateLoginState(false);
-        this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer ");
-      })
-  }
+  // logoutuser(){
+  //   this.http.post<ResultData>(this.baseUrl+'logout', {}, this.httpOptions).pipe(
+  //     catchError(this.handleError)).subscribe(result => {
+  //       console.log(result);
+  //       this.updateLoginState(false);
+  //       this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer ");
+  //     })
+  // }
 
 
 //Register 
@@ -68,8 +68,6 @@ registerUser(form: any) {
     localStorage.setItem("token", res.token);
   });
     
-   // console.log("test");
-    //console.log(form);
   }
 
   // Login User
@@ -86,7 +84,7 @@ registerUser(form: any) {
   }
   //  Logout User
 
-logoutUser() {
+logOut() {
   console.log(localStorage.getItem("token"))
   const token = localStorage.getItem("token") || '';
   this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + token);
