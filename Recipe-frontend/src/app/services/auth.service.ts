@@ -35,14 +35,17 @@ export class AuthService {
     this.loggedIn.next(loginState);
   }
 
-  loginUser(loginDetails: LoginDetails){
-    this.http.post<ResultData>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
-      catchError(this.handleError)).subscribe(result => {
-        console.log(result);
-        this.updateLoginState(true);
-        this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + result.token);
-      })
-  }
+
+  
+//Gamla 
+  // loginUser(loginDetails: LoginDetails){
+  //   this.http.post<ResultData>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
+  //     catchError(this.handleError)).subscribe(result => {
+  //       console.log(result);
+  //       this.updateLoginState(true);
+  //       this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + result.token);
+  //     })
+  // }
 
   logOut(){
     this.http.post<ResultData>(this.baseUrl+'logout', {}, this.httpOptions).pipe(
@@ -52,6 +55,8 @@ export class AuthService {
         this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer ");
       })
   }
+
+
 //Register 
 
 registerUser(form: any) {
@@ -66,6 +71,34 @@ registerUser(form: any) {
    // console.log("test");
     //console.log(form);
   }
+
+  // Login User
+  loginUser(loginDetails: Partial<LoginDetails>){
+    this.http.post<any>(this.baseUrl+'login', loginDetails, this.httpOptions).pipe(
+      catchError(this.handleError)).subscribe(result => {
+        console.log(result);
+        console.log(result.token);
+        localStorage.setItem("token", result.token);
+        this.updateLoginState(true);
+        
+      })
+    
+  }
+  //  Logout User
+
+logoutUser() {
+  console.log(localStorage.getItem("token"))
+  const token = localStorage.getItem("token") || '';
+  this.httpOptions.headers = this.httpOptions.headers.set('Authorization', "Bearer " + token);
+  this.http.post<any>(this.baseUrl + 'logout', {}, this.httpOptions).pipe(
+    catchError(this.handleError)
+  ).subscribe(res => {
+    console.log(res);
+    console.log(res.token);
+    this.updateLoginState(false);
+  })
+
+}
 
   getUser2(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl+'getuser/2', this.httpOptions);

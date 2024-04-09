@@ -5,50 +5,90 @@ import { LoginDetails } from '../../interfaces/login-details';
 import { User } from '../../interfaces/user';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AsyncPipe, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, AsyncPipe, RouterLink, RouterLinkActive, FormsModule, ReactiveFormsModule] ,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  title = 'authapp';
+  // Import av interface
 
-  loginDetails: LoginDetails;
+loginDetails: LoginDetails;
 
-  user: User;
+// FormGroup
 
-  loggedIn$: Observable<boolean>;
+loginForm = new FormGroup({
+  email: new FormControl(''),
+  password: new FormControl(''),
+})
 
-  constructor(private auth: AuthService){
+
+
+  constructor(private auth: AuthService) { 
     this.loginDetails = {
-      email:"seb@seb.seb",
-      password:"sebsebseb"
+      email:"",
+      password:"",
     }
-
-    this.user = {
-      id:-1,
-      name:"",
-      email:""
-    }
-
-    this.loggedIn$ = this.auth.loggedIn$;
   }
 
-  login(){
-    this.auth.loginUser(this.loginDetails);
-  }
-  logout(){
-    this.auth.logOut();
-  }
-
-  getUser(){
-    this.auth.getUser2().subscribe(res => {
-      console.log(res[0]);
-      this.user = res[0];
-      this.user.welcomeMessage = `Welcome ${this.user.name}`;
-    })
-  }
+  login() {
+    const loginDetails: Partial<LoginDetails> = {
+        email: this.loginForm.value.email || '', 
+        password: this.loginForm.value.password || '' 
+    };
+    this.auth.loginUser(loginDetails);
 }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//   title = 'authapp';
+
+//   loginDetails: LoginDetails;
+
+//   user: User;
+
+//   loggedIn$: Observable<boolean>;
+
+//   constructor(private auth: AuthService){
+//     this.loginDetails = {
+//       email:"",
+//       password:""
+//     }
+
+//     this.user = {
+//       id:-1,
+//       name:"",
+//       email:""
+//     }
+
+//     this.loggedIn$ = this.auth.loggedIn$;
+//   }
+
+//   login(){
+//     this.auth.loginUser(this.loginDetails);
+//   }
+//   logout(){
+//     this.auth.logOut();
+//   }
+
+//   getUser(){
+//     this.auth.getUser2().subscribe(res => {
+//       console.log(res[0]);
+//       this.user = res[0];
+//       this.user.welcomeMessage = `Welcome ${this.user.name}`;
+//     })
+//   }
